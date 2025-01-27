@@ -24,3 +24,7 @@ app.use(express.static("public")) // // Middleware to serve static files (HTML, 
 app.use(cookieParser())
 // Middleware to parse cookies from incoming requests and make them available in req.cookies.
 // This allows you to add, remove, update, and use cookies for user sessions, preferences, etc.
+
+import userRoute from "./routes/user.route.js"
+
+app.use("/api/v1/users" , userRoute)

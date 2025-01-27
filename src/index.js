@@ -1,7 +1,7 @@
 // Importing dependencies
 import { connectDB } from "./db/connection.db.js";
 import dotenv from "dotenv"
-
+import { app } from "./app.js";
 
 // Environment variable initialize
 dotenv.config({
