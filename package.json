@@ -1,0 +1,15 @@
+{
+  "name": "rentaride",
+  "version": "1.0.0",
+  "description": "bike renting web app backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "backend"
+  ],
+  "author": "Darshan Ladhani",
+  "license": "ISC"
+}
