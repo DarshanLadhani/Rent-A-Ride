@@ -7,12 +7,13 @@ const bikeSchema = new Schema(
       required: true,
       unique: true,
     },
-    bikeImage: {
-      type: String, // Cloudinary URL
-      required: true,
-    },
+    // bikeImage: {
+    //   type: String, // Cloudinary URL
+    //   required: true,
+    // },
     isAvailable: {
       type: Boolean,
+      default : true,
       required: true,
     },
     bikeType: {
@@ -29,7 +30,7 @@ const bikeSchema = new Schema(
       required: true,
     },
     fuelCapacity: {
-      type: String,
+      type: Number,
       required: true,
     },
     bikeAverage: {

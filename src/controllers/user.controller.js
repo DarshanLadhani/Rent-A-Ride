@@ -18,11 +18,11 @@ const generateAccessToken = async function (userid) {
 };
 
 export const registerUser = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password, userContactNumber } = req.body;
+  const { firstName, lastName, email, password, userContactNumber , role} = req.body;
 
   // Validations
   if (
-    [firstName, lastName, email, password].some((field) => field?.trim() === "")
+    [firstName, lastName, email, password , role].some((field) => field?.trim() === "")
   ) {
     throw new ApiError(400, "All fields are required");
   }
@@ -64,6 +64,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     userContactNumber,
+    role
   });
 
   const createdUser = await User.findById(user._id).select("-password");
@@ -78,15 +79,13 @@ export const registerUser = asyncHandler(async (req, res) => {
 });
 
 export const loginUser = asyncHandler(async (req, res) => {
-  const { email, userContactNumber, password } = req.body;
+  const { userContactNumber, password } = req.body;
 
-  // Validations
-  if ([email, password].some((field) => field?.trim() === "")) {
-    throw new ApiError(400, "All fields are required");
-  }
-
-  if (!email.includes("@")) {
-    throw new ApiError(400, "Invalid email address");
+  if (!userContactNumber || !/^[6-9]\d{9}$/.test(userContactNumber)) {
+    throw new ApiError(
+      400,
+      "Invalid contact number. It must be a 10-digit number starting with 6, 7, 8, or 9."
+    );
   }
 
   const user = await User.findOne({ userContactNumber });
@@ -132,7 +131,7 @@ export const logoutUser = asyncHandler(async (req,res) => {
       .status(200)
       .clearCookie("accessToken" , cookiesOptions)
       .json(new ApiResponse(200 , {} , "User logout successfully"))
-})
+});
 
 export const updateUserAccountDetails = asyncHandler(async (req , res) => {
   const {firstName , lastName , email , userContactNumber} = req.body;
@@ -159,7 +158,7 @@ export const updateUserAccountDetails = asyncHandler(async (req , res) => {
   
   return res.status(200).json(new ApiResponse(200 , user , "User details updated successfully"))
 
-})
+});
 
 export const changeUserPassword = asyncHandler (async (req , res) => {
   const {oldPassword , newPassword , confirmPassword} = req.body;
@@ -197,8 +196,8 @@ export const changeUserPassword = asyncHandler (async (req , res) => {
 
   return res.status(200).json(new ApiResponse(200 , {} ,  "Password changed successfully"))
 
-})
+});
 
 export const getUserInfo = asyncHandler(async (req , res) => {
   return res.status(200).json(new ApiResponse(200 , req.user , "Current User Fetched Successfully"));
-})
+});

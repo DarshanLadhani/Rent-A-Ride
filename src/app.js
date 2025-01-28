@@ -26,5 +26,7 @@ app.use(cookieParser())
 // This allows you to add, remove, update, and use cookies for user sessions, preferences, etc.
 
 import userRoute from "./routes/user.route.js"
+import bikeRoute from "./routes/bike.route.js"
 
 app.use("/api/v1/users" , userRoute)
+app.use("/api/v1/bikes" , bikeRoute)
