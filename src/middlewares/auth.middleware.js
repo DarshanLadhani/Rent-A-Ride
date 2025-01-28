@@ -31,7 +31,6 @@ export const verifyJwt = asyncHandler (async (req , res , next) => {
 export const restrictTo = asyncHandler (async (req , res  , next) => {
     try {
         
-        
         if (!req.user) {
             throw new ApiError(400 , "Please Login")
         }
@@ -46,13 +45,3 @@ export const restrictTo = asyncHandler (async (req , res  , next) => {
         throw new ApiError(500 , error?.message || "Something went wrong")
     }
 })
-
-// export function restrictTo(roles = []) {
-//     return function (req , res , next) {
-//         if (!req.user) {return res.redirect("/user/login")}
-
-//         if (!roles.includes(req.user.role)) {return res.send("You're unauthorized")}
-
-//         next();
-//     }
-// }

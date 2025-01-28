@@ -84,7 +84,6 @@ export const getBike = asyncHandler(async (req, res) => {
   
   const {bikeId} = req.params;
 
-
   const bike = await Bike.findById(bikeId);
 
   if (!bike) {
@@ -96,7 +95,6 @@ export const getBike = asyncHandler(async (req, res) => {
 
 export const removeBike = asyncHandler(async (req, res) => {
   const {bikeId} = req.params;
-  console.log(bikeId)
 
   const bike = await Bike.findByIdAndDelete(bikeId);
 
