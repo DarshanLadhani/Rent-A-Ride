@@ -7,10 +7,10 @@ const bikeSchema = new Schema(
       required: true,
       unique: true,
     },
-    // bikeImage: {
-    //   type: String, // Cloudinary URL
-    //   required: true,
-    // },
+    bikeImage: {
+      type: String, // Cloudinary URL
+      required: true,
+    },
     isAvailable: {
       type: Boolean,
       default : true,
