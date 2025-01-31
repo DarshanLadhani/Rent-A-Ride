@@ -2,10 +2,16 @@ import mongoose, { Schema } from "mongoose";
 
 const bikeSchema = new Schema(
   {
+    bikeCompanyName: {
+      type: String,
+      required: true,
+    },
     bikeName: {
       type: String,
       required: true,
-      unique: true,
+    },
+    bikeModelName: {
+      type: String,
     },
     bikeImage: {
       type: String, // Cloudinary URL

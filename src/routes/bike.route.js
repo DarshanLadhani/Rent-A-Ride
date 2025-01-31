@@ -1,17 +1,18 @@
 import { Router } from "express";
 import { restrictTo, verifyJwt } from "../middlewares/auth.middleware.js";
-import { addBike, getBike, getBikes, removeBike, updateBikeDetails, updateBikeImage } from "../controllers/bike.controller.js";
+import { addBike, getBike, getBikes, removeBike, searchBikes, updateBikeDetails, updateBikeImage } from "../controllers/bike.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
 router.use(verifyJwt)
 
-router.route("/addBike").post(restrictTo,  upload.single("bikeImage") , addBike);
-router.route("/getBikes").get(restrictTo , getBikes);
-router.route("/getBike/:bikeId").get(restrictTo , getBike)
-router.route("/removeBike/:bikeId").delete(restrictTo , removeBike);
-router.route("/updateBikeDetails/:bikeId").patch(restrictTo , updateBikeDetails);
-router.route("/updateBikeImage/:bikeId").patch(restrictTo , upload.single("bikeImage") ,updateBikeImage);
+router.route("/admin/addBike").post(restrictTo,  upload.single("bikeImage") , addBike);
+router.route("/admin/getAllBikes").get(restrictTo , getBikes);
+router.route("/admin/getBike/:bikeId").get(restrictTo , getBike)
+router.route("/admin/removeBike/:bikeId").delete(restrictTo , removeBike);
+router.route("/admin/updateBikeDetails/:bikeId").patch(restrictTo , updateBikeDetails);
+router.route("/admin/updateBikeImage/:bikeId").patch(restrictTo , upload.single("bikeImage") ,updateBikeImage);
+router.route("/search").get(verifyJwt , searchBikes)
 
 export default router;

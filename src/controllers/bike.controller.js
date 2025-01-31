@@ -6,6 +6,8 @@ import { uploadOnCloudinary } from "../utils/cloudinary.util.js";
 
 export const addBike = asyncHandler(async (req, res) => {
   const {
+    bikeCompanyName,
+    bikeModelName,
     bikeName,
     bikeType,
     bikeModelYear,
@@ -14,7 +16,7 @@ export const addBike = asyncHandler(async (req, res) => {
     bikeAverage,
     bikePrice,
   } = req.body;
-  
+
   // Convert fields to numbers
   const bikeModelYearNum = Number(bikeModelYear);
   const kilometerDrivenNum = Number(kilometerDriven);
@@ -22,10 +24,16 @@ export const addBike = asyncHandler(async (req, res) => {
   const bikeAverageNum = Number(bikeAverage);
   const bikePriceNum = Number(bikePrice);
 
-  if (!bikeName || typeof bikeName !== "string" || bikeName.split(" ").length > 3) {
-    throw new ApiError(400, "Bike name is required and must be at most 3 words long.");
+  if (!bikeCompanyName || typeof bikeCompanyName !== "string") {
+    throw new ApiError(400, "Bike company name is required and must be a string");
   }
-  
+
+  if (!bikeName || typeof bikeName !== "string") {
+    throw new ApiError(400, "Bike name is required and must be a string");
+  }
+
+  // Bike Model Name is optional so no validation 
+
   let bikeTypes = ["automatic", "manual"];
   if (!bikeType || !bikeTypes.includes(bikeType)) {
     throw new ApiError(400, `Bike type is required and must be one of the following: ${bikeTypes.join(", ")}`);
@@ -65,14 +73,16 @@ export const addBike = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Something went wrong while uploading the bike image.");
   }
 
-  const existingBike = await Bike.findOne({ bikeName, bikeModelYear: bikeModelYearNum });
+  const existingBike = await Bike.findOne({ bikeCompanyName , bikeName , bikeModelName , bikeModelYear: bikeModelYearNum });
 
   if (existingBike) {
     throw new ApiError(400, "Bike with the same name and model year already exists.");
   }
 
   const bike = await Bike.create({
+    bikeCompanyName,
     bikeName,
+    bikeModelName : bikeModelName || "",
     bikeImage: bikeImageFile?.url,
     bikeType,
     bikeModelYear: bikeModelYearNum,
@@ -191,5 +201,24 @@ export const updateBikeImage = asyncHandler(async (req , res) => {
 
 })
 
+export const searchBikes = asyncHandler(async (req , res) => {
+  console.log("Arrived")
+
+  const {companyName , type } = req.query;
+
+  let filters = {isAvailable : true};
+
+  if (companyName) {
+    filters.bikeCompanyName = companyName
+  }
+
+  if (type) {
+    filters.bikeType = type
+  }
+
+  const bikes = await Bike.find(filters);
+
+  return res.status(200).json(new ApiResponse(200 , bikes , "Bikes retrieved successfully"));
+})
 
 
