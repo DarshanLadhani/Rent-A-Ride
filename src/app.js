@@ -28,7 +28,9 @@ app.use(cookieParser())
 import userRoute from "./routes/user.route.js"
 import bikeRoute from "./routes/bike.route.js"
 import bookingRoute from "./routes/booking.route.js"
+import paymentRoute from "./routes/payment.route.js"
 
 app.use("/api/v1/users" , userRoute)
 app.use("/api/v1/bikes" , bikeRoute)
 app.use("/api/v1/booking" , bookingRoute)
+app.use("/api/v1/payment" , paymentRoute)

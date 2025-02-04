@@ -9,11 +9,10 @@ export const bookSelectedBike = asyncHandler(async (req , res) => {
     const {pickupDateTime , dropoffDateTime , totalAmount} = req.body;
     const user = req.user;
 
-
     if (!user) {
         throw new ApiError(400 , "Please login")
     }
-    
+
     if (!bikeId) {
         throw new ApiError(400 , "Bike Id is required")
     }

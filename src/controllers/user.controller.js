@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.util.js";
 import { ApiError } from "../utils/apiError.util.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/apiResponse.util.js";
+import { console } from "inspector";
 
 // Creating a method to generate refresh and access tokens
 const generateAccessToken = async function (userid) {
@@ -79,8 +80,10 @@ export const registerUser = asyncHandler(async (req, res) => {
 });
 
 export const loginUser = asyncHandler(async (req, res) => {
-  const { userContactNumber, password } = req.body;
 
+  
+  const { userContactNumber, password } = req.body;
+  
   if (!userContactNumber || !/^[6-9]\d{9}$/.test(userContactNumber)) {
     throw new ApiError(
       400,
@@ -88,6 +91,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     );
   }
 
+  
   const user = await User.findOne({ userContactNumber });
 
   if (!user) {
@@ -106,7 +110,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   const cookiesOptions = {
     httpOnly: true,
-    secure: true,
+    secure: false,
   };
 
   return res
