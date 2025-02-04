@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { restrictTo, verifyJwt } from "../middlewares/auth.middleware.js";
-import { addBike, getBike, getBikes, removeBike, searchBikes, updateBikeDetails, updateBikeImage } from "../controllers/bike.controller.js";
+import { addBike, bookFromSearchedBikes, getBike, getBikes, removeBike, searchBikes, updateBikeDetails, updateBikeImage } from "../controllers/bike.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
@@ -13,6 +13,7 @@ router.route("/admin/getBike/:bikeId").get(restrictTo , getBike)
 router.route("/admin/removeBike/:bikeId").delete(restrictTo , removeBike);
 router.route("/admin/updateBikeDetails/:bikeId").patch(restrictTo , updateBikeDetails);
 router.route("/admin/updateBikeImage/:bikeId").patch(restrictTo , upload.single("bikeImage") ,updateBikeImage);
-router.route("/search").get(verifyJwt , searchBikes)
+router.route("/search").get(searchBikes)
+router.route("/search/:bikeId").get(bookFromSearchedBikes)
 
 export default router;

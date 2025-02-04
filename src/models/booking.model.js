@@ -23,32 +23,23 @@ const bookingSchema = new Schema(
       type: Boolean,
       required: true,
     },
-    calculatedPrice: {
+    totalAmount : {
       type: Number, // Represents a float value
       required: true,
     },
     deposit: {
       type: Number,
-      required: true,
       default: 3000,
     },
     canceledAt: {
       type: Date,
     },
-    pickupDate: {
-      type: Date, // Date for pickup
+    pickupDateTime: {
+      type: Date, // Date and Time for pickup
       required: true,
     },
-    dropoffDate: {
-      type: Date, // Date for dropoff
-      required: true,
-    },
-    pickupTime: {
-      type: String, // Time stored as a string (e.g., "10:30 AM")
-      required: true,
-    },
-    dropoffTime: {
-      type: String, // Time stored as a string (e.g., "6:00 PM")
+    dropoffDateTime: {
+      type: Date, // Date and Time for dropoff
       required: true,
     },
   },

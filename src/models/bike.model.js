@@ -12,6 +12,7 @@ const bikeSchema = new Schema(
     },
     bikeModelName: {
       type: String,
+      default: "",
     },
     bikeImage: {
       type: String, // Cloudinary URL
@@ -24,28 +25,38 @@ const bikeSchema = new Schema(
     },
     bikeType: {
       type: String,
+      enum : ["automatic" , "manual"],
       required: true,
-      trim: true,
     },
     bikeModelYear: {
       type: Number,
       required: true,
+      min : 2000,
+      max : new Date().getFullYear(),
     },
     kilometerDriven: {
       type: Number,
       required: true,
+      min : 1,
     },
     fuelCapacity: {
       type: Number,
-      required: true,
+      default : null,
+    },
+    fuelType : {
+      type : String,
+      enum : ["petrol" , "electric"],
+      required : true,
     },
     bikeAverage: {
       type: Number,
-      required: true,
+      default: null,
     },
     bikePrice: {
       type: Number, // 24-Hour Price
       required: true,
+      min : 399,
+      max : 1499,
     },
   },
   { timestamps: true }
