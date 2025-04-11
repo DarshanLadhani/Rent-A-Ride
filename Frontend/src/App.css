@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+.custom-datepicker-popup {
+    z-index: 9999 !important;
+  }
+  
