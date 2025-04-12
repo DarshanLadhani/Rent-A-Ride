@@ -29,8 +29,6 @@ function AddBike() {
         bikeType: transmissionType,
     })
 
-
-
     const handleFuelType = (e) => {
         const fuelTypeValue = e.target.value
         setSelectedFuelType(fuelTypeValue)
@@ -42,7 +40,11 @@ function AddBike() {
         setTransmissionType(transimissonTypeValue)
         setFormData({ ...formData, bikeType: transimissonTypeValue })
     }
-
+    
+    const handleFormDataChange = (e) => {
+        setFormData({ ...formData, [e.target.name] : e.target.value });
+    };
+    
     const fileInputRef = useRef(null);
 
     const handleImageChange = (e) => {
@@ -62,9 +64,6 @@ function AddBike() {
         fileInputRef.current.click()
     }
 
-    const handleFormDataChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
 
     const handleAddBike = async () => {
         try {

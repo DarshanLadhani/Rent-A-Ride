@@ -70,12 +70,23 @@ const bikeSchema = new Schema(
       min : 90,
       max : 200,
     },
-    average : {
+    bikeAverage : {
       type : Number,
       default :  null,
-      required : true,
       min : 30,
       max : 120,
+    },
+    displacement : {
+      type : Number,
+      default : null,
+      min : 40,
+      max : 400,
+    },
+    chargingTime : {
+      type : Number,
+      default : null,
+      min : 1,
+      max : 12,
     }
   },
   { timestamps: true }

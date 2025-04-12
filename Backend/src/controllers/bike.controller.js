@@ -16,7 +16,13 @@ export const addBike = asyncHandler(async (req, res) => {
     fuelType,
     bikeAverage,
     bikePrice,
+    topSpeed,
+    chargingTime,
+    kerbWeight,
+    displacement,
   } = req.body;
+
+  console.log("Body : " , req.body)
 
 
   if (!bikeCompanyName || typeof bikeCompanyName !== "string") {
@@ -42,16 +48,26 @@ export const addBike = asyncHandler(async (req, res) => {
     // Convert fields to numbers
     const bikeModelYearNum = Number(bikeModelYear);
     const kilometerDrivenNum = Number(kilometerDriven);
+    const bikePriceNum = Number(bikePrice);
+    const topSpeedNum = Number(topSpeed);
+    const kerbWeightNum = Number(kerbWeight);
+
+  
     let bikeAverageNum = null;
     let fuelCapacityNum = null;
+    let displacementNum = null;
+    let chargingTimeNum = null;
 
 
     if (fuelType === "petrol") {
       fuelCapacityNum = Number(fuelCapacity);
       bikeAverageNum = Number(bikeAverage);
+      displacementNum = Number(displacement);
     } 
 
-    const bikePriceNum = Number(bikePrice);
+    if (fuelType === "electric") {
+      chargingTimeNum = Number(chargingTime)
+    }
 
   let currentYear = new Date().getFullYear();
   
@@ -63,20 +79,40 @@ export const addBike = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Kilometer driven is required and must be a positive number.");
   }
   
+  if (!bikePriceNum || isNaN(bikePriceNum) || bikePriceNum < 399 || bikePriceNum > 1499) {
+    throw new ApiError(400, "Bike price is required and must be between 399 to 1499.");
+  }
+
+  if (!topSpeedNum || isNaN(topSpeedNum) || topSpeedNum < 40 || topSpeedNum > 200) {
+    throw new ApiError(400, "Top Speed is required and must be between 40 kmph to 200 kmph.");
+  }
+
+  if (!kerbWeightNum || isNaN(kerbWeightNum) || kerbWeightNum < 90 || kerbWeightNum > 200) {
+    throw new ApiError(400, "Bike price is required and must be between 90 kg to 200 kg.");
+  }
+
   if (fuelType === "petrol"){
     if (!fuelCapacityNum || isNaN(fuelCapacityNum) || fuelCapacityNum <= 0 || fuelCapacityNum > 30) {
-      throw new ApiError(400, "Fuel capacity is required and must be between 1 and 30 liters.");
+      throw new ApiError(400, "Bike Fuel capacity is required and must be between 1 and 30 liters.");
     }
   }
 
   if (fuelType === "petrol") {
-    if (!bikeAverageNum || isNaN(bikeAverageNum) || bikeAverageNum < 5 || bikeAverageNum > 100) {
-      throw new ApiError(400, "Bike average is required for petrol bikes and must be between 5 and 100 km/l.");
+    if (!bikeAverageNum || isNaN(bikeAverageNum) || bikeAverageNum < 5 || bikeAverageNum > 120) {
+      throw new ApiError(400, "Bike average is required for petrol bikes and must be between 5 and 120 km/l.");
     }
   } 
-  
-  if (!bikePriceNum || isNaN(bikePriceNum) || bikePriceNum < 399 || bikePriceNum > 1499) {
-    throw new ApiError(400, "Bike price is required and must be between 399 to 1499.");
+
+  if (fuelType === "petrol") {
+    if (!displacementNum || isNaN(displacementNum) || bikeAverageNum < 40 || bikeAverageNum > 400) {
+      throw new ApiError(400, "Bike Displacement is required for petrol bikes and must be between 40 cc and 400 cc");
+    }
+  } 
+
+  if (fuelType === "electric") {
+    if (!chargingTimeNum || isNaN(chargingTimeNum) || chargingTimeNum < 1 || chargingTimeNum > 12) {
+      throw new ApiError(400, "Bike Charging Time is required for electric bikes and must be between 1 Hour and 12 Hours");
+    }
   }
   
   const bikeImageFileLocalPath = req.file?.path;
@@ -105,8 +141,12 @@ export const addBike = asyncHandler(async (req, res) => {
     bikeType,
     bikeModelYear: bikeModelYearNum,
     kilometerDriven: kilometerDrivenNum,
+    topSpeed : topSpeedNum,
+    kerbWeight : kerbWeightNum,
     fuelCapacity: fuelCapacityNum,
     bikeAverage: bikeAverageNum,
+    displacement : displacementNum,
+    chargingTime : chargingTimeNum,
     bikePrice: bikePriceNum,
     fuelType,
   });
@@ -193,14 +233,16 @@ export const updateBikeDetails = asyncHandler(async (req , res) => {
 
   const {
     kilometerDriven,
-    fuelCapacity,
+    topSpeed,
     bikeAverage,
-    bikePrice,} = req.body;
+    bikePrice,
+    chargingTime,} = req.body;
 
     const kilometerDrivenNum = Number(kilometerDriven);
     const bikePriceNum = Number(bikePrice);
-    let fuelCapacityNum = null;
+    const topSpeedNum = Number(topSpeed);
     let bikeAverageNum = null;
+    let chargingTimeNum = null;
 
     if (!kilometerDrivenNum || isNaN(kilometerDrivenNum) || kilometerDrivenNum <= 0) {
       throw new ApiError(400, "Kilometer driven is required and must be a positive number.");
@@ -209,21 +251,29 @@ export const updateBikeDetails = asyncHandler(async (req , res) => {
       if (!bikePriceNum || isNaN(bikePriceNum) || bikePriceNum < 399 || bikePriceNum > 1499) {
         throw new ApiError(400, "Bike price is required and must be between 399 to 1499.");
       }
+
+      if (!topSpeedNum || isNaN(topSpeedNum) || topSpeedNum < 40 || topSpeedNum > 200) {
+        throw new ApiError(400, "Top Speed is required and must be between 40 kmph to 200 kmph.");
+      }
     
       if (bike.fuelType === "petrol") {
-        fuelCapacityNum = Number(fuelCapacity);
         bikeAverageNum = Number(bikeAverage);
-
-        if (!fuelCapacityNum || isNaN(fuelCapacityNum) || fuelCapacityNum <= 0 || fuelCapacityNum > 30) {
-          throw new ApiError(400, "Fuel capacity is required and must be between 1 and 30 liters.");
-        }
 
         if (!bikeAverageNum || isNaN(bikeAverageNum) || bikeAverageNum < 5 || bikeAverageNum > 100) {
           throw new ApiError(400, "Bike average is required for petrol bikes and must be between 5 and 100 km/l.");
         }
       }
+
+      if (bike.fuelType === "electric") {
+
+        chargingTimeNum = Number(chargingTime);
+
+        if (!chargingTimeNum || isNaN(chargingTimeNum) || chargingTimeNum < 1 || chargingTimeNum > 12) {
+          throw new ApiError(400, "Bike Charging Time is required for electric bikes and must be between 1 Hour and 12 Hours");
+        }
+      }
       
-    const updatedBike = await Bike.findByIdAndUpdate(bikeId, {kilometerDriven : kilometerDrivenNum , fuelCapacity : fuelCapacityNum , bikeAverage : bikeAverageNum , bikePrice : bikePriceNum}, { new: true });
+    const updatedBike = await Bike.findByIdAndUpdate(bikeId, {kilometerDriven : kilometerDrivenNum  , bikeAverage : bikeAverageNum , bikePrice : bikePriceNum , chargingTime : chargingTimeNum}, { new: true });
 
     if (!updatedBike) {
       throw new ApiError(500, "Failed to update bike.");

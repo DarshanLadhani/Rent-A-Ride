@@ -126,7 +126,6 @@ function UpdateBike() {
             )
 
             if (response.status === 200) {
-                console.log("Response : " , response)
                 setsuccessMessage(response.data.message)
                 setShowSuccessMessage(true)
             }
