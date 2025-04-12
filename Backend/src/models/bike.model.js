@@ -58,6 +58,25 @@ const bikeSchema = new Schema(
       min : 399,
       max : 1499,
     },
+    topSpeed : {
+      type : Number,
+      required : true,
+      min : 40,
+      max : 200,
+    },
+    kerbWeight : {
+      type : Number,
+      required : true,
+      min : 90,
+      max : 200,
+    },
+    average : {
+      type : Number,
+      default :  null,
+      required : true,
+      min : 30,
+      max : 120,
+    }
   },
   { timestamps: true }
 );

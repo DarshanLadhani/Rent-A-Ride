@@ -119,7 +119,36 @@ export const addBike = asyncHandler(async (req, res) => {
 });
 
 export const getBikes = asyncHandler(async (req, res) => {
-  const bikes = await Bike.find({});
+  const {automatic , manual , petrol , electric , honda , tvs , ola , bajaj , ather , revolt} = req.query;
+
+  let filters = { isAvailable: true };
+
+  let bikeTypes = [];
+  if (automatic === 'true') bikeTypes.push('automatic');
+  if (manual === 'true') bikeTypes.push('manual');
+  if (bikeTypes.length  > 0) {
+    filters.bikeType = {$in : bikeTypes}
+  }
+  
+  let fuelTypes = [];
+  if (petrol === 'true') fuelTypes.push('petrol');
+  if (electric === 'true') fuelTypes.push('electric');
+  if (fuelTypes.length > 0) {
+    filters.fuelType = { $in: fuelTypes };
+  }
+  
+  let companies = [];
+  if (honda === 'true') companies.push('Honda');
+  if (tvs === 'true') companies.push('TVS');
+  if (ola === 'true') companies.push('Ola');
+  if (bajaj === 'true') companies.push('Bajaj');
+  if (ather === 'true') companies.push('Ather');
+  if (revolt === 'true') companies.push('Revolt');
+  if (companies.length > 0) {
+    filters.bikeCompanyName = { $in: companies };
+  }
+
+  const bikes = await Bike.find(filters);
 
   if (!bikes || bikes.length === 0) {
     throw new ApiError(404 , "No Bikes found in the system")

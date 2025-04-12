@@ -14,7 +14,6 @@ function AdminDashboard() {
     const navigate = useNavigate()
     const location = useLocation()
 
-
     const [filtersOpen, setFiltersOpen] = useState(false);
 
     const [filters, setFilters] = useState({
@@ -83,16 +82,17 @@ function AdminDashboard() {
             }
         }, []);
 
+        
         setFiltersLength(Object.keys(queryParams).length)
-
+        
         async function fetchBikes() {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/bikes/admin/getAllBikes`, { params: queryParams })
-
+                
                 if (response.status === 200) {
                     setAllBikes(response.data.data)
                 }
-
+                
             } catch (error) {
                 if (error?.response) {
                     if (error.response.data.error?.statusCode === 401) {
@@ -101,7 +101,7 @@ function AdminDashboard() {
                         });
                         return;
                     }
-
+                    
                     if (error.response || error.response.data.message) {
                         console.log(error)
                     }
@@ -110,10 +110,11 @@ function AdminDashboard() {
                 }
             }
         }
-
+        
         fetchBikes()
-
+        
     }, [filters])
+
 
     const handleFilters = (key, checked) => {
         setFilters((prevFilters) => ({

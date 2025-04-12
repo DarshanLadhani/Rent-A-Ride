@@ -29,7 +29,6 @@ function UserProfile() {
     async function getBookings() {
       const Bookings = await axios.get(`${import.meta.env.VITE_API_URL}/users/getBookings`)
       setBookings(Bookings.data.data)
-      console.log(Bookings)
     }
     
 

@@ -4,8 +4,6 @@ import { ApiResponse } from "../utils/apiResponse.util.js";
 import { Payment } from "../models/payment.model.js";
 import { Booking } from "../models/booking.model.js";
 import { Cashfree } from "cashfree-pg";
-import { User } from "../models/user.model.js";
-import { load } from "@cashfreepayments/cashfree-js";
 import axios from "axios"
 
 Cashfree.XClientId = process.env.CASHFREE_CLIENT_ID;
