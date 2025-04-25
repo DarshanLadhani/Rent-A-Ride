@@ -314,6 +314,8 @@ export const searchBikes = asyncHandler(async (req , res) => {
   const {automatic , manual , petrol , electric , honda , tvs , ola , bajaj , ather , revolt} = req.query;
   const { pickupDate, dropoffDate } = req.body;
 
+  console.log(req.query)
+
   if (!pickupDate || !dropoffDate ) {
     throw new ApiError(400, "Pickup and drop-off dates are required");
   }
@@ -366,16 +368,15 @@ export const searchBikes = asyncHandler(async (req , res) => {
   }
   
   let companies = [];
-  if (honda === 'true') companies.push('honda');
-  if (tvs === 'true') companies.push('tvs');
-  if (ola === 'true') companies.push('ola');
-  if (bajaj === 'true') companies.push('bajaj');
-  if (ather === 'true') companies.push('ather');
-  if (revolt === 'true') companies.push('revolt');
+  if (honda === 'true') companies.push('Honda');
+  if (tvs === 'true') companies.push('TVS');
+  if (ola === 'true') companies.push('Ola');
+  if (bajaj === 'true') companies.push('Bajaj');
+  if (ather === 'true') companies.push('Ather');
+  if (revolt === 'true') companies.push('Revolt');
   if (companies.length > 0) {
     filters.bikeCompanyName = { $in: companies };
   }
-  
 
   const bikes = await Bike.find(filters);
 

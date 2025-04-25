@@ -123,8 +123,6 @@ function BikesResults() {
 
     setFiltersLength(Object.keys(queryParams).length)
 
-
-
     async function fetchBikes() {
       try {
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/bikes/search`, { pickupDate, dropoffDate }, { params: queryParams })
@@ -154,6 +152,8 @@ function BikesResults() {
     fetchBikes()
 
   }, [filters])
+
+  console.log("Filters" , filters)
 
   const handleBookBike = (bikeId) => {
     navigate("/bikes/book" , {
