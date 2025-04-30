@@ -316,7 +316,7 @@ function BikesResults() {
                 </p>
               </div>
               {/* Bike Image */}
-              <div className="w-full flex justify-center mx-auto  h-44 overflow-hidden">
+              <div className="w-full flex justify-center mx-auto h-44 overflow-hidden">
                 <img
                   src={bike.bikeImage}
                   alt={bike.bikeName}

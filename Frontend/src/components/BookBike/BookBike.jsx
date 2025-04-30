@@ -61,7 +61,9 @@ function BookBike() {
 
     try {
 
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/booking/bookBike/${bikeId}`, { pickupDateTime: pickupAndDropoffDates.pickupDate, dropoffDateTime: pickupAndDropoffDates.dropoffDate, totalAmount: bookBikeDetails?.totalAmount })
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/booking/bookBike/${bikeId}`, { pickupDateTime: pickupAndDropoffDates.pickupDate, dropoffDateTime: pickupAndDropoffDates.dropoffDate, totalAmount: bookBikeDetails?.totalAmount , totalDays : bookBikeDetails?.totalDays , remainingHours : bookBikeDetails?.remainingHours })
+
+      console.log("Bookings Response : " , response)
 
       if (response.statusText === "OK") {
 
@@ -131,12 +133,12 @@ function BookBike() {
         {error}
       </div>
       <div className='w-full xl:w-8/10 flex-col md:flex-row md:gap-x-5 xl:flex-row xl:p-10 p-5 mx-auto flex gap-y-7 xl:gap-y-0 xl:gap-x-7'>
-        <div className='w-full xl:w-6/10 border-2 border-gray-200 rounded-md flex flex-col gap-y-2 xl:p-5'>
-          <div className='rounded-md flex flex-col gap-y-6 items-center xl:p-10'>
+        <div className='w-full xl:w-6/10 border-2 border-gray-200  rounded-md flex flex-col gap-y-2 xl:p-5'>
+          <div className='rounded-md flex flex-col gap-y-6 p-4 items-center xl:p-10'>
             <img src={bookBikeDetails?.bike?.bikeImage} alt="Bike Image not Found" />
             <h3 className='text-lg xl:text-xl font-medium'>{bookBikeDetails?.bike?.bikeCompanyName} {bookBikeDetails?.bike?.bikeName} {bookBikeDetails?.bike?.bikeModelName && bookBikeDetails?.bike?.bikeModelName}</h3>
           </div>
-          <div className='flex flex-col items-center gap-y-2 md:gap-y-4 justify-center xl:gap-x-6 p-2'>
+          <div className='flex flex-col items-center gap-y-2 md:gap-y-4 justify-center xl:gap-x-6 p-2 '>
             <h3 className='text-lg xl:text-xl font-medium'>Specifications</h3>
             <div className='grid grid-cols-2 p-2 gap-y-5 gap-x-10 xl:p-5 xl:gap-y-10 xl:gap-x-20 text-sm lg:text-base'>
               <div className='flex flex-col xl:flex-row items-center gap-x-2 gap-y-2 xl:gap-y-0 '>
@@ -197,7 +199,7 @@ function BookBike() {
           </div>
         </div>
         <div className='w-full xl:w-4/10 flex flex-col gap-y-4 text-sm md:text-base'>
-          <div className='p-2 md:p-3 lg:p-5 border-2 border-gray-200 rounded-md flex flex-col gap-y-3 xl:gap-y-6'>
+          <div className='p-4 md:p-3 lg:p-5 border-2 border-gray-200 rounded-md flex flex-col gap-y-3 xl:gap-y-6'>
             <div className='flex flex-col gap-y-2'>
               <h3 className='flex items-center gap-x-2'><i className='fa-regular fa-calendar'></i>Pick-Up</h3>
               <div className='flex items-center gap-x-4 text-gray-600'>
@@ -242,7 +244,7 @@ function BookBike() {
               <button onClick={(e) => handleBookNow(e)} className='bg-black text-white px-4 py-2 rounded-sm cursor-pointer hover:bg-black/90 transition-colors duration-300'>Book Now</button>
             </div>
           </div>
-          <div className='border-2 rounded-md border-gray-200 px-6 py-2'>
+          <div className='border-2 rounded-md border-gray-200 p-4'>
             <h3 className='mb-2 font-medium'>Terms & Conditions</h3>
             <ul className='text-sm lg:text-base'>
               <li className='mb-2 text-justify'><b>Document : </b>Bring original DL & Aadhaar photo at pickup.</li>
@@ -257,7 +259,7 @@ function BookBike() {
       <div className='w-full xl:w-8/10 mx-auto p-5 xl:p-10'>
         <div className="w-full">
           <h2 className='text-2xl xl:text-3xl font-medium text-center'>Things To Remember</h2>
-          <div className="mt-10 md:mt-20">
+          <div className="mt-5 md:mt-15">
             <ul className="md:grid md:grid-cols-4 md:col-gap-10 md:row-gap-10">
               <li className=" bg-gray-50 p-2 md:p-5 lg:pb-10 text-center relative">
                 <div className="flex flex-col items-center">
@@ -288,7 +290,7 @@ function BookBike() {
                       Pickup Timings
                     </h4>
                     <p className="mt-2 text-lg xl:text-xl text-gray-500">
-                      9:00 AM to 7:00 PM
+                      9 AM to 7 PM
                     </p>
                   </div>
                 </div>

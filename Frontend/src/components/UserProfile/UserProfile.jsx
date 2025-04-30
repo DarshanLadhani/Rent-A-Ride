@@ -23,6 +23,20 @@ function UserProfile() {
 
   const [isDashBoardOpen, setDashBoardOpen] = useState(true);
   const [isMyProfile, setMyProfile] = useState(false);
+  const [isConfirmBookingOpen, setConfirmBookingOpen] = useState(true);
+  const [isPendingBookingOpen, setPendingBookingOpen] = useState(false);
+  const [isCancelledBookingOpen, setCancelledBookingOpen] = useState(false);
+
+  const dateOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }
+
+  const timeOptions = {
+    hour: 'numeric',
+    minute: 'numeric'
+  }
 
 
   useEffect(() => {
@@ -30,7 +44,7 @@ function UserProfile() {
       const Bookings = await axios.get(`${import.meta.env.VITE_API_URL}/users/getBookings`)
       setBookings(Bookings.data.data)
     }
-    
+
 
     getBookings()
   }, [])
@@ -108,20 +122,13 @@ function UserProfile() {
     }
   }
 
+  console.log("Bookings : ", bookings)
+
 
   return (
     <div>
-      <div className='bg-slate-950 flex justify-between items-center p-2 md:px-8 lg:px-12 xl:px-20 w-full'>
-        <div>
-          <img src="src/assets/11.png" className="w-25 md:w-30 md:h-35 lg:w-40 lg:h-45 object-contain" />
-        </div>
-        <h1 className='text-2xl md:text-3xl lg:text-5xl text-white'>My Dashboard</h1>
-        <div>
-          <img src="src/assets/13.png" className=" hidden md:block md:w-45 md:h-35 lg:w-50 lg:h-40 xl:w-70 xl:h-50 object-contain" alt="Logo" />
-        </div>
-      </div>
-      <div className='p-4 md:p-10 lg:p-10 flex flex-col lg:flex-row w-full gap-y-5 md:gap-x-5 justify-center items-center lg:items-start'>
-        <div className='border-2 p-2 rounded-md border-gray-200 w-full md:w-9/10 md:mx-auto md:items-center lg:mx-0 lg:w-4/10 xl:w-1/4 h-full flex flex-col gap-y-5 md:flex-row lg:flex-col lg:gap-y-3'>
+      <div className='h-[800px] lg:h-[600px]  p-4  flex flex-col lg:flex-row w-full gap-y-5 md:gap-x-5 justify-center items-center lg:items-start'>
+        <div className='border-2 p-2 rounded-md border-gray-200 w-full md:w-9/10 md:mx-auto md:items-center lg:mx-0 lg:w-4/10 xl:w-1/4 h-fit lg:h-full  flex flex-col gap-y-5 md:flex-row lg:flex-col lg:gap-y-3'>
           <div className='md:w-1/2 lg:w-full'>
             <div className='p-2 md:p-0 lg:p-5 flex justify-center'>
               <img src="src\assets\15.jpg " className='w-40 h-40 lg:w-50 lg:h-50 object-contain rounded-full' alt="" />
@@ -143,60 +150,178 @@ function UserProfile() {
           </div>
         </div>
         {
-          isDashBoardOpen && (bookings?.length === 0 ? 
-              <div className='border-2 py-4 px-6 rounded-md border-gray-200 w-full md:w-9/10 lg:w-6/10'>
-                  <div className='w-full py-4 lg:p-12 flex flex-col items-center gap-y-6'>
-                    <i className="fa-regular fa-file-excel text-7xl md:text-8xl text-gray-600"></i>
-                    <p className='text-center text-sm md:text-lg xl:text-lg'>{"Hey " + user?.firstName + " ready for your first ride? Explore our bikes now!"}</p>
-                    <Link to={"/"}>
-                      <button className='w-full bg-black text-white px-3 py-1.5 md:px-4 md:py-2 rounded-md cursor-pointer font-medium hover:bg-black/90 transition-colors duration-300'>Book a ride</button> 
-                    </Link>
+          isDashBoardOpen && (bookings !== null ?
+            <div className='border-2 rounded-md border-gray-200 w-full h-full md:w-9/10 lg:w-7/10  overflow-auto flex flex-col'>
+              <h1 className='text-xl py-4 px-6 md:text-3xl text-center md:text-start font-medium sticky left-0 xl:static'>My Bookings</h1>
+              <ul className='flex gap-x-4 px-6 py-2'>
+                <li onClick={() => {
+                  setConfirmBookingOpen(true)
+                  setPendingBookingOpen(false)
+                  setCancelledBookingOpen(false)
+                }} className={`cursor-pointer rounded-md flex gap-x-3 items-center  px-4 py-2 ${isConfirmBookingOpen ? 'bg-black text-white' : 'text-black'}`}>Confirm</li>
+                <li onClick={() => {
+                  setConfirmBookingOpen(false)
+                  setPendingBookingOpen(true)
+                  setCancelledBookingOpen(false)
+                }} className={`cursor-pointer rounded-md flex gap-x-3 items-center  px-4 py-2 ${isPendingBookingOpen ? 'bg-black text-white' : 'text-black'}`}>Pending</li>
+                <li onClick={() => {
+                  setConfirmBookingOpen(false)
+                  setPendingBookingOpen(false)
+                  setCancelledBookingOpen(true)
+                }} className={`cursor-pointer rounded-md flex gap-x-3 items-center  px-4 py-2 ${isCancelledBookingOpen ? 'bg-black text-white' : 'text-black'}`}>Cancelled</li>
+              </ul>
+
+
+              {
+                isConfirmBookingOpen &&
+                (
+                  <div className='py-2 px-6 flex flex-col gap-y-4'>
+                    {bookings?.confirmBookings.length === 0 ?
+                      <div>No Orders</div>
+                      :
+                      bookings.confirmBookings.map((booking) => (
+                        <div key={booking._id} className='bg-gray-100 text-sm border-gray-400 rounded-xs border-2 px-2 py-4'>
+                          <div className='flex gap-x-2'>
+                            <div className='w-44'>
+                              <img src={booking.bikeImage} alt={booking.bikeName} className='w-full h-28 object-contain' />
+                            </div>
+                            <div className='w-full flex flex-col justify-center'>
+                              <div className='border-b border-b-gray-900/50 py-2 flex justify-between items-center'>
+                                <h3 className='text-base font-medium'>{booking.bikeCompanyName + " " + booking.bikeName + " " + booking.bikeModelName}</h3>
+                                <p>Total Amount : {booking.totalAmount}</p>
+                              </div>
+                              <div className='flex flex-col text-sm py-2 gap-y-2'>
+                                <div className='flex justify-between gap-y-2'>
+                                  <p className='flex gap-x-2 items-center'><i className='fa-regular fa-calendar'></i>Pick-Up : {new Date(booking.pickupDateTime).toLocaleDateString('en-US', dateOptions)} {new Date(booking.pickupDateTime).toLocaleTimeString('en-US', timeOptions)}</p>
+                                  <p className='flex gap-x-2 items-center'><i className='fa-regular fa-calendar'></i>Drop-off : {new Date(booking.pickupDateTime).toLocaleDateString('en-US', dateOptions)} {new Date(booking.pickupDateTime).toLocaleTimeString('en-US', timeOptions)}</p>
+                                </div>
+                                <div className='flex justify-between  gap-y-2'>
+                                  <p>Pickup Location : {booking.store}</p>
+                                  <p className='flex justify-between gap-x-1'>
+                                    <span>Booking Duration : </span>
+                                    <p>
+                                      <span>
+                                        {booking.totalDays} Day
+                                      </span>
+                                      {booking.remainingHours > 0 && <span>, {bookBikeDetails?.remainingHours} Hours</span>}
+                                    </p>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    }
                   </div>
+                )
+              }
+              {
+                isPendingBookingOpen &&
+                (
+                  <div className='py-2 px-6 flex flex-col gap-y-4'>
+                    {bookings?.pendingBookings.length === 0 ?
+                      <div>No Orders</div>
+                      :
+                      bookings.pendingBookings.map((booking) => (
+                        <div key={booking._id} className='bg-gray-100 text-sm border-gray-400 rounded-xs border-2 px-2 py-4'>
+                          <div className='flex gap-x-2'>
+                            <div className='w-44'>
+                              <img src={booking.bikeImage} alt={booking.bikeName} className='w-full h-28 object-contain'/>
+                            </div>
+                            <div className='w-full flex flex-col justify-center'>
+                              <div className='border-b border-b-gray-900/50 py-2 flex justify-between items-center'>
+                                <h3 className='text-base font-medium'>{booking.bikeCompanyName + " " + booking.bikeName + " " + booking.bikeModelName}</h3>
+                                <p>Total Amount : {booking.totalAmount}</p>
+                              </div>
+                              <div className='flex flex-col text-sm py-2 gap-y-2'>
+                                <div className='flex justify-between gap-y-2'>
+                                  <p className='flex gap-x-2 items-center'><i className='fa-regular fa-calendar'></i>Pick-Up : {new Date(booking.pickupDateTime).toLocaleDateString('en-US', dateOptions)} {new Date(booking.pickupDateTime).toLocaleTimeString('en-US', timeOptions)}</p>
+                                  <p className='flex gap-x-2 items-center'><i className='fa-regular fa-calendar'></i>Drop-off : {new Date(booking.pickupDateTime).toLocaleDateString('en-US', dateOptions)} {new Date(booking.pickupDateTime).toLocaleTimeString('en-US', timeOptions)}</p>
+                                </div>
+                                <div className='flex justify-between  gap-y-2'>
+                                  <p>Pickup Location : {booking.store}</p>
+                                  <p className='flex justify-between gap-x-1'>
+                                    <span>Booking Duration : </span>
+                                    <p>
+                                      <span>
+                                        {booking.totalDays} Day
+                                      </span>
+                                      {booking.remainingHours > 0 && <span>, {bookBikeDetails?.remainingHours} Hours</span>}
+                                    </p>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    }
+                  </div>
+                )
+              }
+              {
+                isCancelledBookingOpen &&
+                (
+                  <div className='py-2 px-6 flex flex-col gap-y-4'>
+                    {bookings?.cancelBookings.length === 0 ?
+                      <div>No Orders</div>
+                      :
+                      bookings.cancelBookings.map((booking) => (
+                        <div key={booking._id} className='bg-gray-100 text-sm border-gray-400 rounded-xs border-2 px-2 py-4'>
+                          <div className='flex gap-x-2'>
+                            <div className='h-full w-44 '>
+                              <img src={booking.bikeImage} alt={booking.bikeName} />
+                            </div>
+                            <div className='w-full flex flex-col justify-center'>
+                              <div className='border-b border-b-gray-900/50 py-2 flex justify-between items-center'>
+                                <h3 className='text-base font-medium'>{booking.bikeCompanyName + " " + booking.bikeName + " " + booking.bikeModelName}</h3>
+                                <p>Total Amount : {booking.totalAmount}</p>
+                              </div>
+                              <div className='flex flex-col text-sm py-2 gap-y-2'>
+                                <div className='flex justify-between gap-y-2'>
+                                  <p className='flex gap-x-2 items-center'><i className='fa-regular fa-calendar'></i>Pick-Up : {new Date(booking.pickupDateTime).toLocaleDateString('en-US', dateOptions)} {new Date(booking.pickupDateTime).toLocaleTimeString('en-US', timeOptions)}</p>
+                                  <p className='flex gap-x-2 items-center'><i className='fa-regular fa-calendar'></i>Drop-off : {new Date(booking.pickupDateTime).toLocaleDateString('en-US', dateOptions)} {new Date(booking.pickupDateTime).toLocaleTimeString('en-US', timeOptions)}</p>
+                                </div>
+                                <div className='flex justify-between  gap-y-2'>
+                                  <p>Pickup Location : {booking.store}</p>
+                                  <p className='flex justify-between gap-x-1'>
+                                    <span>Booking Duration : </span>
+                                    <p>
+                                      <span>
+                                        {booking.totalDays} Day
+                                      </span>
+                                      {booking.remainingHours > 0 && <span>, {bookBikeDetails?.remainingHours} Hours</span>}
+                                    </p>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    }
+                  </div>
+                )
+              }
+            </div>
+            :
+            <div className='border-2 py-4 px-6 rounded-md border-gray-200 w-full md:w-9/10 lg:w-7/10'>
+              <div className='w-full py-4 lg:p-12 flex flex-col items-center gap-y-6'>
+                <i className="fa-regular fa-file-excel text-7xl md:text-8xl text-gray-600"></i>
+                <p className='text-center text-sm md:text-lg xl:text-lg'>{"Hey " + user?.firstName + " ready for your first ride? Explore our bikes now!"}</p>
+                <Link to={"/"}>
+                  <button className='w-full bg-black text-white px-3 py-1.5 md:px-4 md:py-2 rounded-md cursor-pointer font-medium hover:bg-black/90 transition-colors duration-300'>Book a ride</button>
+                </Link>
               </div>
-              : 
-              <div className='border-2 py-4 px-6 rounded-md border-gray-200 w-full md:w-9/10 lg:w-fit overflow-x-scroll md:overflow-x-auto'>
-                <h1 className='text-xl md:text-3xl text-center md:text-start font-medium sticky left-0 xl:static'>My Recent Bookings</h1>
-                <table className="table-fixed border-separate border-spacing-y-3 md:border-spacing-y-4 text-gray-700 text-sm">
-                  <thead>
-                    <tr>
-                      <th className="p-2 md:px-5 md:py-2 text-center whitespace-nowrap">Vehicle</th>
-                      <th className="p-2 md:px-5 md:py-2 text-center whitespace-nowrap">Pickup Location</th>
-                      <th className="p-2 md:px-5 md:py-2 text-center whitespace-nowrap">Pickup Date</th>
-                      <th className="p-2 md:px-5 md:py-2 text-center whitespace-nowrap">Dropoff Date</th>
-                      <th className="p-2 md:px-5 md:py-2 text-center whitespace-nowrap">Payment</th>
-                      <th className="p-2 md:px-5 md:py-2 text-center whitespace-nowrap">Booking</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {bookings?.map((booking) => (
-                      <tr key={booking._id}>
-                        <td className="p-2 md:px-4 md:py-2 whitespace-nowrap text-center">
-                          {booking.bikeCompanyName + " " + booking.bikeName + " " + booking.bikeModelName}
-                        </td>
-                        <td className="p-2 md:px-4 md:py-2 whitespace-nowrap text-center">{booking.store}</td>
-                        <td className="p-2 md:px-4 md:py-2 whitespace-nowrap text-center">
-                          {new Date(booking.pickupDateTime).toLocaleDateString()}
-                        </td>
-                        <td className="p-2 md:px-4 md:py-2 whitespace-nowrap text-center">
-                          {new Date(booking.dropoffDateTime).toLocaleDateString()}
-                        </td>
-                        <td className="p-2 md:px-4 md:py-2 whitespace-nowrap text-center">
-                          <i className="fa-solid fa-indian-rupee-sign mr-1"></i>{booking.totalAmount}
-                        </td>
-                        <td className={`${booking.bookingStatus === "Confirm" ? 'bg-green-400' : 'bg-red-400'} text-white rounded-full text-center p-2 md:px-4 md:py-2 whitespace-nowrap`}>
-                          {booking.bookingStatus}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+            </div>
+
           )
         }
 
         {
           isMyProfile &&
-          <div className='border-2 py-4 px-6 rounded-md border-gray-200 w-full md:w-9/10 lg:w-3/5'>
+          <div className='border-2 py-4 px-6 rounded-md border-gray-200 w-full md:w-9/10 lg:w-7/10'>
             <form>
               <div className="flex flex-col gap-y-4 md:gap-y-8">
                 <div className='flex flex-col gap-y-4 md:flex-row md:justify-center md:gap-x-4 lg:gap-x-6'>

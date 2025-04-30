@@ -77,9 +77,9 @@ function Signup() {
 
   return (
     <div className="relative md:py-4 md:px-10 min-h-screen bg-gray-100 flex flex-col justify-center items-center">
-      <div className="bg-white shadow-2xl rounded-md flex w-9/10 md:w-7/10">
-        <img className="hidden w-1/2 rounded-tl-md rounded-bl-md xl:block" src="src\assets\manBike2.jpg" alt="" />
-        <form onSubmit={handleSubmit} className="relative w-full xl:w-1/2 py-5 flex flex-col justify-center gap-y-4">
+      <div className="bg-white shadow-2xl rounded-md flex w-9/10 md:w-7/10 justify-between">
+        <img className="hidden w-[48%] rounded-tl-md rounded-bl-md xl:block" src="src\assets\manBike2.jpg" alt="" />
+        <form onSubmit={handleSubmit} className="relative w-full xl:w-1/2  py-5 flex flex-col justify-center gap-y-4">
           <Link to={"/"}>
             <button className="bg-black cursor-pointer px-2 py-1 flex gap-x-2 justify-center items-center text-white absolute rounded-tr-md top-0 right-0 hover:bg-black/90 transition-colors duration-300"><i class="fa-solid fa-arrow-left"></i> Home</button>
           </Link>
@@ -125,17 +125,6 @@ function Signup() {
         </form>
 
       </div>
-      {/* {showError && (
-        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[50%] lg:w-[40%] bg-red-200 text-red-600 px-4 py-2 rounded-md flex justify-between items-center shadow-lg transition-all duration-300 ease-in-out">
-          <p className="text-sm md:text-base w-[85%] text-center">
-            {error || "Something went wrong while registering the user"}
-          </p>
-          <button className="text-red-600 cursor-pointer" onClick={handleCloseError}>
-            <X size={24} />
-          </button>
-        </div>
-      )} */}
-
     </div>
   );
 }

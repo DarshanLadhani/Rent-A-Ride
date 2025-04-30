@@ -18,6 +18,10 @@ const bookingSchema = new Schema(
       type: String,
       default: "",
     },
+    bikeImage: {
+      type: String, // Cloudinary URL
+      required: true,
+    },
     bookingStatus: {
       type: String,
       enum: ["Confirm", "Pending", "Cancelled"],
@@ -37,6 +41,14 @@ const bookingSchema = new Schema(
       required: true,
     },
     totalAmount : {
+      type: Number, // Represents a float value
+      required: true,
+    },
+    totalDays : {
+      type: Number, // Represents a float value
+      required: true,
+    },
+    remainingHours : {
       type: Number, // Represents a float value
       required: true,
     },

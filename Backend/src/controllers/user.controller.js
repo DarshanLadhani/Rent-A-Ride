@@ -3,7 +3,6 @@ import { ApiError } from "../utils/apiError.util.js";
 import { User } from "../models/user.model.js";
 import { Booking } from "../models/booking.model.js"
 import { ApiResponse } from "../utils/apiResponse.util.js";
-import { console } from "inspector";
 
 // Creating a method to generate refresh and access tokens
 const generateAccessToken = async function (userid) {
@@ -14,7 +13,6 @@ const generateAccessToken = async function (userid) {
     return accessToken;
 
   } catch (error) {
-    console.log(error.message);
     throw new ApiError(500, "Something went wrong while generating tokens");
   }
 };
@@ -207,12 +205,12 @@ export const getUserInfo = asyncHandler(async (req , res) => {
   return res.status(200).json(new ApiResponse(200 , req.user , "Current User Fetched Successfully"));
 });
 
-export const getUserBooking = asyncHandler(async(req , res) => {
-    const booking = await Booking.find({});
-  
-    if (!booking || booking.length === 0) {
-      throw new ApiError(404 , "No Booking found in the system for user.")
-    }
-  
-    return res.status(200).json(new ApiResponse(200 , booking , "Bookings retrived successfully"))
+export const getUserBookings = asyncHandler(async (req , res) => {
+  const pendingBookings = await Booking.find({bookingStatus : 'Pending'});
+  const confirmBookings = await Booking.find({bookingStatus : 'Confirm'});
+  const cancelBookings = await Booking.find({bookingStatus : 'Cancelled'});
+
+  const bookings = {pendingBookings , confirmBookings , cancelBookings}
+
+  return res.status(200).json(new ApiResponse(200 , bookings , "Bookings Fetched Successfully"))
 })

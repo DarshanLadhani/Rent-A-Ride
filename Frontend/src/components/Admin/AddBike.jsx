@@ -150,11 +150,11 @@ function AddBike() {
                 <div className='p-4 lg:p-10 flex flex-col gap-y-4 md:gap-y-6'>
                     <div className='flex  flex-col gap-y-4 md:flex-row md:gap-x-4 md:justify-center'>
                         <div className='flex flex-col gap-y-2 w-full md:w-1/2'>
-                            <label htmlFor="bikeName" className='font-medium'>Bike Name<sup>*</sup> </label>
+                            <label htmlFor="bikeName" className='font-medium'>Bike Name<sup className='text-red-500'>*</sup> </label>
                             <input type="text" placeholder="Ex. Activa" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="bikeName" id="bikeName" required />
                         </div>
                         <div className='flex flex-col gap-y-2 w-full md:w-1/2'>
-                            <label htmlFor="bikeCompanyName" className='font-medium'>Company Name<sup>*</sup> </label>
+                            <label htmlFor="bikeCompanyName" className='font-medium'>Company Name<sup className='text-red-500'>*</sup> </label>
                             <input type="text" placeholder="Ex. Honda" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="bikeCompanyName" id="bikeCompanyName" required />
                         </div>
                     </div>
@@ -164,27 +164,27 @@ function AddBike() {
                             <input type="text" placeholder="Ex. 5G" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="bikeModelName" id="bikeModelName" />
                         </div>
                         <div className='flex flex-col gap-y-2 w-full md:w-1/2'>
-                            <label htmlFor="bikeModelYear" className='font-medium'>Model Year<sup>*</sup></label>
+                            <label htmlFor="bikeModelYear" className='font-medium'>Model Year<sup className='text-red-500'>*</sup></label>
                             <input type="number" placeholder="Ex. 2022" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="bikeModelYear" id="bikeModelYear" required />
                         </div>
                     </div>
                     <div className='flex flex-col gap-y-4 md:flex-row gap-x-4 md:justify-center'>
                         <div className='flex flex-col gap-y-2 w-full md:w-1/2'>
-                            <label htmlFor="bikePrice" className='font-medium'>Price (24 Hour Rate)<sup>*</sup></label>
+                            <label htmlFor="bikePrice" className='font-medium'>Price (24 Hour Rate)<sup className='text-red-500'>*</sup></label>
                             <input type="number" placeholder="Ex. 599 Rs" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="bikePrice" id="bikePrice" required />
                         </div>
                         <div className='flex flex-col gap-y-2 w-full md:w-1/2'>
-                            <label htmlFor="kilometerDriven" className='font-medium'>Kilometers Covered<sup>*</sup></label>
+                            <label htmlFor="kilometerDriven" className='font-medium'>Kilometers Covered<sup className='text-red-500'>*</sup></label>
                             <input type="number" placeholder="Ex. 10000 Kms" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="kilometerDriven" id="kilometerDriven" />
                         </div>
                     </div>
                     <div className='flex flex-col gap-y-4 md:flex-row gap-x-4 md:justify-center'>
                         <div className='flex flex-col gap-y-2 w-full md:w-1/2'>
-                            <label htmlFor="topSpeed" className='font-medium'>Top Speed<sup>*</sup></label>
+                            <label htmlFor="topSpeed" className='font-medium'>Top Speed<sup className='text-red-500'>*</sup></label>
                             <input type="number" placeholder="Ex. 100 kmph" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="topSpeed" id="topSpeed" />
                         </div>
                         <div className='flex flex-col gap-y-2 w-full md:w-1/2'>
-                            <label htmlFor="kerbWeight" className='font-medium'>Kerb Weight<sup>*</sup></label>
+                            <label htmlFor="kerbWeight" className='font-medium'>Kerb Weight<sup className='text-red-500'>*</sup></label>
                             <input type="number" placeholder="Ex. 110 Kg" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="kerbWeight" id="kerbWeight" />
                         </div>
                     </div>
@@ -216,17 +216,17 @@ function AddBike() {
                         <div className='flex flex-col gap-y-4'>
                             <div className='flex flex-col gap-y-4 md:flex-row md:gap-x-4 md:justify-center'>
                                 <div className='flex flex-col gap-y-2 w-full md:w-1/2'>
-                                    <label htmlFor="bikeAverage" className='font-medium'>Average<sup>*</sup></label>
+                                    <label htmlFor="bikeAverage" className='font-medium'>Average<sup className='text-red-500'>*</sup></label>
                                     <input type="number" placeholder="Ex. 50 kmpl" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="bikeAverage" id="bikeAverage" />
                                 </div>
                                 <div className='flex flex-col gap-y-2 w-full md:w-1/2'>
-                                    <label htmlFor="fuelCapacity" className='font-medium'>Fuel Capacity<sup>*</sup></label>
+                                    <label htmlFor="fuelCapacity" className='font-medium'>Fuel Capacity<sup className='text-red-500'>*</sup></label>
                                     <input type="number" placeholder="Ex. 5 Litre" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="fuelCapacity" id="fuelCapacity" />
                                 </div>
                             </div>
                             <div className='flex flex-col gap-y-4 md:flex-row md:gap-x-4 md:justify-center'>
                                 <div className='flex flex-col gap-y-2 w-full md:w-1/2'>
-                                    <label htmlFor="displacement" className='font-medium'>Displacement<sup>*</sup></label>
+                                    <label htmlFor="displacement" className='font-medium'>Displacement<sup className='text-red-500'>*</sup></label>
                                     <input type="number" placeholder="Ex. 109 cc" onChange={handleFormDataChange} className="border-2 focus:outline-none focus:bg-none border-gray-300 rounded-md py-1.5 px-3" name="displacement" id="displacement" />
                                 </div>
                                 <button className='w-full md:w-1/2 h-1/2 md:self-end rounded-md cursor-pointer px-3 py-1.5 bg-black text-white font-medium' onClick={handleAddBike}>Add Bike</button>

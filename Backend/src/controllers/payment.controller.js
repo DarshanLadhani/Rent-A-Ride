@@ -52,7 +52,6 @@ export const makePayment = asyncHandler(async (req, res) => {
 
   Cashfree.PGCreateOrder("2023-08-01", paymentRequest)
     .then((response) => {
-      console.log("Payment Response : ", response.data);
       return res.json(response.data);
     })
     .catch((error) => {
@@ -79,8 +78,6 @@ export const verifyPayment = asyncHandler(async (req, res) => {
     });
 
     const paymentStatus = response.data.order_status;
-
-    console.log("Payment Status : " , paymentStatus)
 
     if (paymentStatus === "PAID") {
       await Booking.findByIdAndUpdate(orderId, {

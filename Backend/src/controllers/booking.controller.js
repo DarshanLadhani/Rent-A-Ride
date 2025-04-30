@@ -6,8 +6,10 @@ import { Bike } from "../models/bike.model.js";
 
 export const bookSelectedBike = asyncHandler(async (req , res) => {
     const {bikeId} = req.params;
-    const {pickupDateTime , dropoffDateTime , totalAmount} = req.body;
+    const {pickupDateTime , dropoffDateTime , totalAmount , totalDays , remainingHours} = req.body;
     const user = req.user;
+
+    console.log(req.body)
 
     if (!user) {
         throw new ApiError(400 , "Please login")
@@ -17,21 +19,24 @@ export const bookSelectedBike = asyncHandler(async (req , res) => {
         throw new ApiError(400 , "Bike Id is required")
     }
     
-    if (!pickupDateTime || !dropoffDateTime || !totalAmount) {
+    if (!pickupDateTime || !dropoffDateTime || !totalAmount || !totalDays) {
         throw new ApiError(400 , "Pickup Date and Dropoff Date is required")
     }
 
-    const bike = await Bike.findById(bikeId).select("bikeName bikeCompanyName bikeModelName");
+    // const bike = await Bike.findById(bikeId).select("bikeName bikeCompanyName bikeModelName");
 
-    if (!bike) {
-        throw new ApiError(400 , "Something went wrong while booking")
-    }
+    // if (!bike) {
+    //     throw new ApiError(400 , "Something went wrong while booking")
+    // }
 
-    const isBookingExits = await Booking.findOne({userId : user._id , bikeId , bookingStatus : "pending"})
+    const bike = await Bike.findByIdAndUpdate(bikeId , {isAvailable : false , isBooked : true})
 
-    if (isBookingExits) {
-        throw new ApiError(400 , "Bike booking is already pending")
-    }
+
+    // const isBookingExits = await Booking.findOne({userId : user._id , bikeId , bookingStatus : "pending"})
+
+    // if (isBookingExits) {
+    //     throw new ApiError(400 , "Bike booking is already pending")
+    // }
 
     const booking = await Booking.create({
         userId : user._id,
@@ -45,7 +50,11 @@ export const bookSelectedBike = asyncHandler(async (req , res) => {
         bikeCompanyName : bike.bikeCompanyName,
         bikeName : bike.bikeName,
         bikeModelName : bike.bikeModelName,
+        bikeImage : bike.bikeImage,
+        totalDays,
+        remainingHours
     })
+
 
     if (!booking) {
         throw new ApiError(500 , "Something went wrong while booking the bike")

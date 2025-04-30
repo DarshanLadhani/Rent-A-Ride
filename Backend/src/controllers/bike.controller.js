@@ -4,6 +4,9 @@ import { Bike } from "../models/bike.model.js";
 import { ApiResponse } from "../utils/apiResponse.util.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.util.js";
 
+
+// Admin Controllers
+
 export const addBike = asyncHandler(async (req, res) => {
   const {
     bikeCompanyName,
@@ -22,7 +25,6 @@ export const addBike = asyncHandler(async (req, res) => {
     displacement,
   } = req.body;
 
-  console.log("Body : " , req.body)
 
 
   if (!bikeCompanyName || typeof bikeCompanyName !== "string") {
@@ -161,7 +163,7 @@ export const addBike = asyncHandler(async (req, res) => {
 export const getBikes = asyncHandler(async (req, res) => {
   const {automatic , manual , petrol , electric , honda , tvs , ola , bajaj , ather , revolt} = req.query;
 
-  let filters = { isAvailable: true };
+  let filters = {};
 
   let bikeTypes = [];
   if (automatic === 'true') bikeTypes.push('automatic');
@@ -309,12 +311,12 @@ export const updateBikeImage = asyncHandler(async (req , res) => {
 
 })
 
+// User Controllers
+
 export const searchBikes = asyncHandler(async (req , res) => {
 
   const {automatic , manual , petrol , electric , honda , tvs , ola , bajaj , ather , revolt} = req.query;
   const { pickupDate, dropoffDate } = req.body;
-
-  console.log(req.query)
 
   if (!pickupDate || !dropoffDate ) {
     throw new ApiError(400, "Pickup and drop-off dates are required");
@@ -351,7 +353,7 @@ export const searchBikes = asyncHandler(async (req , res) => {
   const pickupDateTime = tempPickupDateTime.toLocaleString().split(",")
   const dropoffDateTime = tempDropoffDateTime.toLocaleString().split(",")
 
-  let filters = { isAvailable: true };
+  let filters = { isAvailable: true , isBooked : false};
 
   let bikeTypes = [];
   if (automatic === 'true') bikeTypes.push('automatic');

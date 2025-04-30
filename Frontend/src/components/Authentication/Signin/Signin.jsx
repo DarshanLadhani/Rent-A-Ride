@@ -96,8 +96,8 @@ function Signin() {
 
   return (
     <div className="relative md:py-4 md:px-10 min-h-screen bg-gray-100 flex flex-col justify-center items-center">
-      <div className="bg-white shadow-2xl rounded-md flex w-9/10 md:w-7/10">
-        <img className="hidden w-1/2  rounded-tl-md rounded-bl-md xl:block" src="src\assets\manBike2.jpg" alt="" />
+      <div className="bg-white shadow-2xl rounded-md flex w-9/10 md:w-7/10 justify-between">
+        <img className="hidden w-[48%]  rounded-tl-md rounded-bl-md xl:block" src="src\assets\manBike2.jpg" alt="" />
         <form onSubmit={handleSubmit} className="relative w-full xl:w-1/2 py-5 flex flex-col justify-center gap-y-4">
           <Link to={"/"}>
             <button className="bg-black cursor-pointer px-2 py-1 flex gap-x-2 justify-center items-center text-white absolute rounded-tr-md top-0 right-0 hover:bg-black/90 transition-colors duration-300"><i className="fa-solid fa-arrow-left"></i> Home</button>
