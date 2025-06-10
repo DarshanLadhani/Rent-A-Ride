@@ -210,7 +210,14 @@ export const getUserBookings = asyncHandler(async (req , res) => {
   const confirmBookings = await Booking.find({bookingStatus : 'Confirm'});
   const cancelBookings = await Booking.find({bookingStatus : 'Cancelled'});
 
-  const bookings = {pendingBookings , confirmBookings , cancelBookings}
+  let bookings = null;
+
+  if (pendingBookings.length === 0 && confirmBookings.length === 0 && cancelBookings.length === 0) {
+    bookings = null;
+  } else {
+    bookings = {pendingBookings , confirmBookings , cancelBookings}
+  }
+
 
   return res.status(200).json(new ApiResponse(200 , bookings , "Bookings Fetched Successfully"))
 })

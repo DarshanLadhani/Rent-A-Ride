@@ -8,12 +8,14 @@ import ScrollToTop from './Scroll/ScrollToTop.js'
 function Layout() {
 
   return (
-    <>
+    <div className='flex flex-col   min-h-screen'>
       <ScrollToTop />
       <Header />
-      <Outlet />
+      <main className='flex-grow'>
+        <Outlet />
+      </main>
       <Footer />
-    </>
+    </div>
   )
 }
 

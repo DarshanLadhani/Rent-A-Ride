@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-export default function Footer({mobile}) {
-    console.log("Mobile : " , mobile)
+export default function Footer() {
     return (
         <footer className='bg-black mt-4 text-white'>
             <div className='flex-col flex gap-y-4 md:flex-row md:gap-x-20 mx-auto py-5 md:py-10'>
